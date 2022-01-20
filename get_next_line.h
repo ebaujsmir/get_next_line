@@ -6,7 +6,7 @@
 /*   By: esmirnov <esmirnov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:09:49 by esmirnov          #+#    #+#             */
-/*   Updated: 2022/01/17 13:16:34 by esmirnov         ###   ########.fr       */
+/*   Updated: 2022/01/20 11:04:06 by esmirnov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE
+#  define BUFFER_SIZE 0
 # endif
 
 # include <unistd.h>

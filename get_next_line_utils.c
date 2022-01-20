@@ -3,11 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: esmirnov <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: esmirnov <esmirnov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:10:00 by esmirnov          #+#    #+#             */
-/*   Updated: 2022/01/17 12:10:02 by esmirnov         ###   ########.fr       */
+/*   Updated: 2022/01/20 10:57:40 by esmirnov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+ft_free(char *buffer)
