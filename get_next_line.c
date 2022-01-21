@@ -6,7 +6,7 @@
 /*   By: esmirnov <esmirnov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:09:39 by esmirnov          #+#    #+#             */
-/*   Updated: 2022/01/20 15:54:47 by esmirnov         ###   ########.fr       */
+/*   Updated: 2022/01/21 12:32:56 by esmirnov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,52 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
+	hold_buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!hold_buffer)
+		return (NULL);	
+	line = my_read(fd, buffer, hold_buffer, line); // attention to the loop line & line1*/
+	free(buffer); // voir pour ligne et hold_buffer str (strjoin) */
+	free(hold_buffer);
+	if (line == NULL)
+		return (NULL);
+	else
+		return (line);
+}
+
+char *my_read(int fd, char *buffer, char *hold_buffer, char *line)
+{
+	//char		*line1;
+	int			i;
+
 	while (read(fd, buffer, BUFFER_SIZE) > 0)
 	{	
-		while (!buffer && buffer != '\n')
+		i = 0;
+		if (!line)
 		{
-			*hold_buffer = *buffer;
+			line = malloc (sizeof(char) * 1);
+			if (line == NULL) /* possible do not do it may be because strjoin check it */
+				return (NULL);
 		}
-		ft_strjoin(line, hold_buffer);
+		while (!buffer && (buffer[i] != '\n'))
+		{
+			hold_buffer[i] = buffer[i];
+			i++;
+		}
+		line = ft_strjoin(line, hold_buffer);
+		/*if (i < BUFFER_SIZE)
+		{
+			while (i < BUFFER_SIZE)
+			{
+				
+			}
+		}*/
 	}
-	free(buffer); /* voir pour ligne et hold_buffer*/
-	return (NULL);
+	return (line);
 }
+
 
 /* main zith bytes_n vriabl for return of read fonction
 
@@ -57,8 +89,8 @@ char	*get_next_line(int fd)
 		bytes_n = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_n < 0)
 		{	
-			free(buffer);/* voir pour ligne et hold_buffer 
-			return (NULL);
+			free(buffer);*/ /* voir pour ligne et hold_buffer */
+/*			return (NULL);
 		}
 		while (!buffer && buffer != '\n')
 		{
