@@ -30,6 +30,65 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char			*str;
+	unsigned int	i;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+	{
+		str = malloc(sizeof(char) * 1);
+		if (str == NULL)
+			return (NULL);
+		str[0] = '\0';
+		return (str);
+	}
+	if (len > ft_strlen(&s[start]))
+		str = malloc(sizeof(char) * (ft_strlen(&s[start]) + 1));
+	else
+		str = malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	while (len-- != 0 && s[start] != '\0')
+		str[i++] = s[start++];
+	str[i] = '\0';
+	return (str);
+}
+
+char	*ft_strdup(char *src)
+{
+	int		index;
+	char	*dest;
+
+	index = 0;
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(src) + 1));
+	if (dest == NULL)
+		return (0);
+	while (src[index])
+	{
+		dest[index] = src[index];
+		index++;
+	}
+	dest[index] = '\0';
+	return (dest);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while ((*s != '\0') && (*s != (char)c))
+	{
+		s++;
+	}
+	if (*s == (char)c)
+	{
+		return ((char *)s);
+	}
+	return (NULL);
+}
+
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	char		*destcpy;

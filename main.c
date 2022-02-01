@@ -16,18 +16,17 @@
 
 #include "get_next_line.h"
 
-int	main(int ac, char **av)
+/* int	main()
 {
 	const char *filename = "texte.txt";
-	int			fd; /*file escriptor*/
+	int			fd; file escriptor
 	char		*result;
+	int	i = 0;
 
 	fd = open(filename, O_RDONLY);
-	printf("open done, fd: %d\n", fd);
-	/*if (fd >= 0)
-	{*/
-	while (1)
-	{		
+	printf("open done\n fd: %d\n", fd);
+	while (i < 5)
+	{
 		printf("in loop before result\n");
 		result = get_next_line(fd);
 		printf("after result before break\n");
@@ -37,8 +36,28 @@ int	main(int ac, char **av)
 			break;
 		}
 		printf("%s", result);
+		free(result);
+		i++;
 	}
     close (fd);
 	printf("close done\n");
 	return (0);
+} */
+
+int main(void)
+{
+	int fd;
+	int i = 0;
+
+	fd = open("texte.txt", O_RDONLY);
+	printf("File opened\nfd = %d\n", fd);
+	while (i < 5)
+	{
+		printf("%s", get_next_line(fd));
+		i++;
+		printf("i = %d\n", i);
+	}
+	close(fd);
+	return (0);
 }
+
