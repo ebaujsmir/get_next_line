@@ -6,7 +6,7 @@
 /*   By: esmirnov <esmirnov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:09:31 by esmirnov          #+#    #+#             */
-/*   Updated: 2022/01/21 15:09:48 by esmirnov         ###   ########.fr       */
+/*   Updated: 2022/02/02 13:03:41 by esmirnov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 
 #include "get_next_line.h"
 
-/* int	main()
+int	main()
 {
 	const char *filename = "texte.txt";
-	int			fd; file escriptor
+	int			fd; /*file descriptor*/
 	char		*result;
 	int	i = 0;
 
@@ -42,9 +42,9 @@
     close (fd);
 	printf("close done\n");
 	return (0);
-} */
+}
 
-int main(void)
+/* int main(void)
 {
 	int fd;
 	int i = 0;
@@ -59,5 +59,5 @@ int main(void)
 	}
 	close(fd);
 	return (0);
-}
+}*/
 

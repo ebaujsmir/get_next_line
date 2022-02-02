@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-int	ft_parse(char *str)
+static int	ft_parse(char *str)
 {
 	int	i;
 	
@@ -26,7 +26,90 @@ int	ft_parse(char *str)
 	return (0);
 }
 
-/*int	error_check(int fd, char *hold_buff, char *line)
+static char	*ft_copy_before_n(char *hold_buf)
+{
+	char	*line;
+	int		i;
+	int		n;
+
+	i = 0;
+	while (hold_buf[i] != '\0' && hold_buf[i] != '\n')
+		i++;
+	n = i + 1;
+	line = malloc (sizeof(char) * (n + 1));
+	if (!line)
+		return(NULL);
+	i = 0;
+	while (hold_buf[i] != '\0' && hold_buf[i] != '\n')
+	{
+		line[i] = hold_buf[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+static char	*ft_copy_after_n(char *hold_buf)
+{
+	char	*end;
+	char	*temp;
+	int		i;
+
+	temp = ft_strchr(hold_buf, '\n');
+	i = ft_strlen(temp);
+	end = malloc (sizeof(char) * (i + 1));
+	if (!end)
+		return (NULL);
+	i = 0;
+	while (temp[i] != '\0')
+	{
+		end[i] = temp[i];
+		i++;
+	}
+	end[i] = '\0';
+	return (end);
+}
+
+static char	*ft_return(char *hold_buf, char *line, int nbytes_read)
+{
+	if (nbytes_read == 0 && line == '\0')
+	{
+		free(line);
+		free(hold_buf);
+		/* *hold_buf = NULL;*/
+		return (NULL);
+	}
+	return (line);
+}
+
+char	*get_next_line(int fd)
+{
+	char		buffer[BUFFER_SIZE + 1];
+	char		*line;
+	char		*temp;
+	static char	*hold_buf;
+	int			nbytes_read;
+
+	if (hold_buf == 0)
+		hold_buf = ft_strdup("\0");
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
+		return (NULL);
+	nbytes_read = 1; 
+	while (nbytes_read > 0 && !ft_parse(hold_buf))
+	{
+		nbytes_read = read(fd, buffer, BUFFER_SIZE);
+		buffer[nbytes_read] = '\0';
+		hold_buf = ft_strjoin(hold_buf, buffer);
+	}
+	line = ft_copy_before_n(hold_buf);
+	temp = ft_copy_after_n(hold_buf);
+	free(hold_buf);
+	hold_buf = ft_strdup(temp);
+	free(temp);
+	return (ft_return(hold_buf, line, nbytes_read));
+}
+
+/*int	error_check(int fd, char *hol:wqd_buff, char *line)
 {
 	if (BUFFER_SIZE <= 0 || fd < 0 || fd == 1 || fd == 2 || fd > FD_MAX)
 		return (1);
@@ -60,65 +143,6 @@ int	ft_parse(char *str)
 	free (temp);
 	return(cpy);
 }*/ 
-
-char	*ft_copy_before_n(char *hold_buf)
-{
-	char	*final_line;
-	char	*temp;
-	int		i;
-	int		n;
-
-	i = 0;
-	while (hold_buf[i] != '\0' && hold_buf[i] != '\n')
-		i++;
-	n = strlen(holf_buff);
-	if (n != i)
-	{
-		temps = malloc (sizeof(char) * (i + 2);
-		if (temps == NULL)
-			retrun(NULL);
-		i = 0;
-		while (hold_buf[i] != '\n')
-		{
-			temps[i] = hold_buf[i];
-			i++;
-		}
-		temps [i] = '\n';
-		temps[i++] = '\0';
-	return (final_line);
-}
-
-char	ft_copy_after_n(char *holf_buff)
-{
-	
-}
-
-char	*get_next_line(int fd)
-{
-	char		buffer[BUFFER_SIZE + 1];
-	char		*line;
-	static char	*hold_buf;
-	int			nbytes_read;
-
-	if (hold_buf == 0)
-		hold_buf = ft_strdup("\0");
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, buffer, 0) == -1)
-		return (NULL);
-	nbytes_read = 1; /* read(fd, buffer, BUFFER_SIZE);*/
-	while (nbytes_read > 0 && !ft_parse(hold_buff))
-	{
-		nbytes_read = read(fd, buffer, BUFFER_SIZE);
-		buffer[nbytes_read] = '\0';
-		hold_buf = ft_strjoin(hold_buf, buffer);
-		/* nbytes_read = read(fd, buffer, BUFFER_SIZE);*/
-	}
-	line = ft_copy_before_n(hold_buf);
-	hold_buf = ft_copy_after_n(hold_buf);
-	return (line);
-	/*return (ft_return(hold_buffer, line, nbytes_read));*/
-}
-
-
 
 /* main zith bytes_n vriabl for return of read fonction
 
