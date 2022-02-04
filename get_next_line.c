@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-static int	ft_parse(char *str)
+int	ft_parse(char *str)
 {
 	int	i;
 	
@@ -36,7 +36,7 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strjoin(char *holder, char buffer)
+char	*ft_strjoin(char *storage, char *buffer)
 {
 	int		i;
 	int		j;
@@ -44,15 +44,12 @@ char	*ft_strjoin(char *holder, char buffer)
 
 	i = 0;
 	j = 0;
-	str = malloc(sizeof(char) * (ft_strlen(holder) + ft_strlen(buffer) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(storage) + ft_strlen(buffer) + 1));
 	if (!str)
-	{
-		free(buffer); /* to be checked */
 		return (NULL);
-	}
-	while (holder)
+	while (storage)
 	{
-		str[i] = holder[i];
+		str[i] = storage[i];
 		i++;
 	}
 	while (buffer)
@@ -61,99 +58,103 @@ char	*ft_strjoin(char *holder, char buffer)
 		j++;
 	}
 	str[i + j] = '\0';
-	free(holder);
+	free(storage);
 	return (str);
 }
 
-static char *ft_read(int fd, char holder)
+char *ft_read(int fd, char *storage)
 {
 	char		*buffer;
 	int			nbytes_read;
 	
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1))
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
-	{
-		free(holder);
 		return (NULL);
-	}
 	nbytes_read = 1; 
-	while (nbytes_read > 0 && !ft_parse(holder))
+	while (nbytes_read > 0 && ft_parse(storage) == 0)
 	{
 		nbytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (nbyte_read < 0)
+		if (nbytes_read < 0)
 		{
 			free(buffer);
 			return (NULL);
 		}
 		buffer[nbytes_read] = '\0';
-		holder = ft_strjoin(holder, buffer);
+		storage = ft_strjoin(storage, buffer);
 	}
 	free(buffer);
-	return (holder);
+	return (storage);
 }
 
-static char	*ft_copy_before_n(char *holder)
+char	*ft_copy_before_n(char *storage)
 {
 	char	*line;
 	int		i;
 
 	i = 0;
-	while (holder[i] != '\0' && holder[i] != '\n')
+	while (storage[i] != '\0' && storage[i] != '\n')
 		i++;
-	if (holder[i] == '\n')
+	if (storage[i] == '\n')
 		i++;
 	line = malloc (sizeof(char) * (i + 1));
 	if (!line)
 		return(NULL);
 	i = 0;
-	while (holder[i] != '\0' && holder[i] != '\n')
+	while (storage[i] != '\0' && storage[i] != '\n')
 	{
-		line[i] = holder[i];
+		line[i] = storage[i];
+		i++;
+	}
+	if (storage[i] == '\n')
+	{
+		line[i] = storage[i];
 		i++;
 	}
 	line[i] = '\0';
 	return (line);
 }
 
-/* len includes "\n" , temp[i + 1] to stqrt from the char after "\n" */
-static char	*ft_copy_after_n(char *holder)
+char	*ft_copy_after_n(char *storage, char *line)
 {
-	char	*end;
 	char	*temp;
-	int		len;
 	int		i;
+	int		j;
 
-	temp = ft_strchr(holder, '\n');
-	len = ft_strlen(temp);
-	end = malloc (sizeof(char) * len);
-	if (!end)
-		return (NULL);
-	i = 0;
-	while (temp[i] != '\0')
+	if (!storage[0])
 	{
-		end[i] = temp[i + 1];
-		i++;
+		free (storage);
+		return (NULL);
 	}
-	end[i] = '\0';
-	return (end);
+	j = 0;
+	i = ft_strlen(line);
+	temp = malloc (sizeof(char) * (ft_strlen(storage) - i + 1));
+	if (!temp)
+		return (NULL);
+	while (temp[i + j])
+	{
+		temp[j] = temp[i + j];
+		j++;
+	}
+	temp[j] = '\0';
+	return (temp);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*holder;
+	static char	*storage;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (holder == 0)
+	if (storage == 0)
 	{	
-		holder = malloc(sizeof(char));
-		if (!holder)
+		storage = malloc(sizeof(char));
+		if (!storage)
 			return(NULL);
-		holder[0] = '\0';
+		storage[0] = '\0';
 	}
-	holder = ft_read(fd, holder);
-	line = ft_copy_before_n(holder);
-	holder = ft_copy_after_n(holder, line);
+	storage = ft_read(fd, storage);
+	line = ft_copy_before_n(storage);
+	storage = ft_copy_after_n(storage, line);
 	return (line);
 }
