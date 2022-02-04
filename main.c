@@ -16,10 +16,10 @@
 
 #include "get_next_line.h"
 
-int	main()
+/* int	main()
 {
 	const char *filename = "texte.txt";
-	int			fd; /*file descriptor*/
+	int			fd;
 	char		*result;
 	int	i = 0;
 
@@ -42,22 +42,46 @@ int	main()
     close (fd);
 	printf("close done\n");
 	return (0);
-}
+}*/
 
-/* int main(void)
+/*int main(void)
 {
 	int fd;
 	int i = 0;
+	char	*str;
 
 	fd = open("texte.txt", O_RDONLY);
 	printf("File opened\nfd = %d\n", fd);
+	str = get_next_line(fd);
 	while (i < 5)
 	{
-		printf("%s", get_next_line(fd));
+		printf("%s", str);
+		free(str);
+		str = get_next_line(fd);
 		i++;
 		printf("i = %d\n", i);
+
 	}
+	free (str);
 	close(fd);
 	return (0);
-}*/
+}
+*/
+
+int	main(void)
+{
+	int		fd;
+	char	*str;
+	fd = open("texte1.txt", O_RDONLY);
+	str = get_next_line(fd);
+	while (str[0])
+	{
+		printf("%s", str);
+		free(str);
+		str= get_next_line(fd);
+	}
+	free(str);
+	return (0);
+}
+
 

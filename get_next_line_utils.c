@@ -12,14 +12,14 @@
 
 #include "get_next_line.h"
 
-int	ft_parse(char *str)
+int	ft_parse(char *str, char c)
 {
 	int	i;
 	
 	i = 0;
-	while (str)
+	while (str[i])
 	{
-		if (str[i] == '\n')
+		if (str[i] == c)
 			return (1);
 		i++;
 	}
@@ -31,7 +31,7 @@ int	ft_strlen(char *str)
 	int	i;
 
 	i = 0;
-	while (str)
+	while (str[i])
 		i++;
 	return (i);
 }
@@ -47,12 +47,12 @@ char	*ft_strjoin(char *storage, char *buffer)
 	str = malloc(sizeof(char) * (ft_strlen(storage) + ft_strlen(buffer) + 1));
 	if (!str)
 		return (NULL);
-	while (storage)
+	while (storage[i])
 	{
 		str[i] = storage[i];
 		i++;
 	}
-	while (buffer)
+	while (buffer[j])
 	{
 		str[i + j] = buffer[j];
 		j++;
@@ -71,7 +71,7 @@ char *ft_read(int fd, char *storage)
 	if (!buffer)
 		return (NULL);
 	nbytes_read = 1; 
-	while (nbytes_read > 0 && ft_parse(storage) == 0)
+	while (nbytes_read > 0 && !ft_parse(storage, '\n'))
 	{
 		nbytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (nbytes_read < 0)
@@ -122,7 +122,7 @@ char	*ft_copy_after_n(char *storage, char *line)
 
 	if (!storage[0])
 	{
-		free (storage);
+		free(storage);
 		return (NULL);
 	}
 	j = 0;
@@ -130,12 +130,13 @@ char	*ft_copy_after_n(char *storage, char *line)
 	temp = malloc (sizeof(char) * (ft_strlen(storage) - i + 1));
 	if (!temp)
 		return (NULL);
-	while (temp[i + j])
+	while (storage[i + j])
 	{
-		temp[j] = temp[i + j];
+		temp[j] = storage[i + j];
 		j++;
 	}
 	temp[j] = '\0';
+	free (storage);
 	return (temp);
 }
 

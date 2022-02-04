@@ -26,12 +26,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-char	*get_next_line(int fd);
-char	*ft_read(int fd, char *storage);
-char	*ft_strjoin(char *storage, char *buffer);
+
+int		ft_parse(char *str, char c);
 int		ft_strlen(char *str);
-int		ft_parse(char *str);
+char	*ft_strjoin(char *storage, char *buffer);
+char	*ft_read(int fd, char *storage);
 char	*ft_copy_before_n(char *storage);
 char	*ft_copy_after_n(char *storage, char *line);
+char	*get_next_line(int fd);
 
 #endif
