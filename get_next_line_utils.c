@@ -12,7 +12,8 @@
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+/* ft_strjoin - upgaded +free -const*/
+char	*ft_strjoin(char *s1, char *s2)
 {
 	unsigned int	len1;
 	unsigned int	len2;
@@ -27,6 +28,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_memcpy(str, s1, len1 + 1);
 	ft_strlcat(str, s2, len1 + len2 + 1);
+	free(s1);
 	return (str);
 }
 
