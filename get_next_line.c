@@ -17,7 +17,7 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*storage;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > FD_MAX)
+	if (fd < 0 || fd > FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!storage)
 	{	
