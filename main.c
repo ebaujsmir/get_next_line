@@ -6,7 +6,7 @@
 /*   By: esmirnov <esmirnov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/17 12:09:31 by esmirnov          #+#    #+#             */
-/*   Updated: 2022/02/02 13:03:41 by esmirnov         ###   ########.fr       */
+/*   Updated: 2022/02/08 14:53:53 by esmirnov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 	return (0);
 }*/
 
-/*int main(void)
+/* int main(void)
 {
 	int fd;
 	int i = 0;
@@ -65,23 +65,47 @@
 	free (str);
 	close(fd);
 	return (0);
-}
-*/
+}*/
 
-int	main(void)
+
+// int	main(void)
+// {
+// 	int		fd;
+// 	char	*str;
+	
+// 	fd = open("texte1.txt", O_RDONLY);
+// 	str = get_next_line(fd);
+// 	// printf("test\n");
+// 	if (str)
+// 	{
+// 		while (str[0])
+// 		{
+// 			printf("%s", str);
+// 			free(str);
+// 			str= get_next_line(fd);
+// 		}
+// 		printf("sigsev ?\n");
+// 	}
+// 	free(str);
+// 	close(fd);
+// 	return (0);
+// }
+
+int			main(void)
 {
 	int		fd;
-	char	*str;
+	char	*line;
+
+	line = NULL;
 	fd = open("texte1.txt", O_RDONLY);
-	str = get_next_line(fd);
-	while (str[0])
+	line = get_next_line(fd);
+	while (line)
 	{
-		printf("%s", str);
-		free(str);
-		str= get_next_line(fd);
+		printf("%s", line);
+		free(line);
+		line = get_next_line(fd);
 	}
-	free(str);
-	return (0);
+	close(fd);
 }
 
 
