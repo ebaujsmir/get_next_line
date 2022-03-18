@@ -30,5 +30,7 @@ int			main(void)
 		free(line);
 		line = get_next_line(fd);
 	}
+	free(line);
 	close(fd);
+	return(0);
 }
